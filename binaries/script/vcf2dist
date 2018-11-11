@@ -1,0 +1,101 @@
+#!/usr/bin/python
+import os
+import argparse
+from collections import OrderedDict
+import vcf
+from itertools import combinations
+import pandas as pd
+
+def read_vcf(vcfFile):
+	print("\nRead vcf file {}".format(vcfFile))
+	vcfDic = OrderedDict()
+	vcf_reader = vcf.Reader(open(vcfFile, 'r'))
+	sample_names = vcf_reader.samples
+	for record in vcf_reader:
+		if record.CHROM not in vcfDic.keys():
+			vcfDic[record.CHROM] = [record]
+		else:
+			vcfDic[record.CHROM].append(record)
+	print("Number of loci   : {}".format(len(vcfDic)))
+	print("Number of samples: {}".format(len(sample_names)))
+	return vcfDic, sample_names
+
+
+def vcf2dist(vcfDic, sample_names):
+	print("\nConvert VCF data in SNP and MLST distances")
+	mlstDist = OrderedDict()
+	snpDist  = OrderedDict()
+	for sample1 in sample_names:
+		if sample1 not in mlstDist.keys():
+			mlstDist[sample1] = OrderedDict()
+			snpDist[sample1]  = OrderedDict()
+		for sample2 in sample_names:
+			mlstDist[sample1][sample2] = 0
+			snpDist[sample1][sample2]  = 0
+
+	for chrom in vcfDic.keys():
+		records = vcfDic[chrom]
+		mlst = OrderedDict()
+		for sample1, sample2 in combinations(sample_names, 2):
+			if sample1 not in mlst.keys(): 
+				mlst[sample1]=OrderedDict({sample2:0})
+			else:
+				mlst[sample1][sample2]= 0
+		for record in records:
+			data = {}
+			for sample1, sample2 in combinations(sample_names, 2):
+				#print sample1, record.genotype(sample1)['GT'], sample2, record.genotype(sample2)['GT']
+				if record.genotype(sample1)['GT'] != record.genotype(sample2)['GT']:
+					#print 'sample1 diff sample2'
+					s1_genotype = str(record.ALT[int(record.genotype(sample1)['GT'].split('/')[0])-1])
+					s2_genotype = str(record.ALT[int(record.genotype(sample2)['GT'].split('/')[0])-1])
+					#print s1_genotype, s2_genotype 
+					if s1_genotype != 'N' or s2_genotype != 'N':
+						#print 'diff of N'					
+						snpDist[sample1][sample2] = snpDist[sample1][sample2] + 1
+						snpDist[sample2][sample1] = snpDist[sample1][sample2]
+						mlst[sample1][sample2] = mlst[sample1][sample2] + 1
+					#else:
+					#	print "%s %s %s %i: N genotype excluded in SNP count" % (sample1, sample2, chrom, record.POS)
+		
+		for sample1, sample2 in combinations(sample_names, 2):
+			if mlst[sample1][sample2] > 0:
+				mlstDist[sample1][sample2] = mlstDist[sample1][sample2] + 1
+				mlstDist[sample2][sample1] = mlstDist[sample1][sample2]	
+	
+	return snpDist, mlstDist
+
+
+def write_dist(distDic, distType, outPrefix):
+	df = pd.DataFrame.from_records(distDic)
+	outfile = outPrefix + '_%s_dist.tsv' % distType
+	df.to_csv(outfile, sep='\t')
+	print("{} distance matrix written in {}".format(distType, outfile))
+
+
+def main(args):
+	vcfFile = args.vcf
+	outPrefix = os.path.splitext(vcfFile)[0]
+
+	vcfDic, sample_names = read_vcf(vcfFile)
+	snpDist, mlstDist = vcf2dist(vcfDic, sample_names)
+
+	write_dist(snpDist, 'SNP', outPrefix)
+	write_dist(mlstDist, 'MLST', outPrefix)
+	print '\nvcf to matrix distances done!\n'
+
+
+def version():
+	return '1.0'
+
+
+def run():
+	parser = argparse.ArgumentParser(description='vcf2dist - Version ' + version())
+	parser.add_argument('-v', '--vcf', dest="vcf", default='output_filtered.vcf', help='vcf file [output_filtered.vcf]')
+	parser.add_argument('-V', '--version', action='version', version='vcf2dist-' + version(), help="Prints version number")
+	args = parser.parse_args()
+	main(args)
+
+
+if __name__ == '__main__':
+	run()

@@ -1,0 +1,129 @@
+#!/usr/bin/python3
+
+
+
+configfile: "configfile.json"
+
+
+ruleorder: snippy > singppy         #if rule snippy if we can or rule singpy if we can't rule snippy (not all input).
+
+def funcR1(wildcards):
+    return "{dirRead}/{sample}{ext}".format(dirRead=config["repRead"], sample=wildcards.sample, ext=config["configsouche"][wildcards.genome][wildcards.sample][0])
+
+def funcR2(wildcards):
+    return "{dirRead}/{sample}{ext}".format(dirRead=config["repRead"], sample=wildcards.sample, ext=config["configsouche"][wildcards.genome][wildcards.sample][1])
+
+def funcExtGeno(wildcards):
+    return "{ref}/{genome}{ext}".format(ref=config["genomeRef"], genome=wildcards.genome, ext=config["species"][wildcards.genome])
+
+
+
+rule target:
+    input:
+        expand("{dir}/{reference}/merge_genome_core_result/SNP_network.html", dir=config["dirResult"], reference=config['species'])
+
+
+rule singppy:
+    input:
+        sr = funcR1,
+        genome = funcExtGeno
+
+    output:
+        expand("{dir}/{{genome}}/{{sample}}", dir=config["dirResult"])
+
+    params:
+        mincov = expand("{minc}", minc=config['mincov']),
+        minfrac= expand("{minf}", minf=config['minfrac'])
+
+    threads: 4
+    shell:
+        """bin/snippy_custom --ram 4 --cpus {threads} --minfrac {params.minfrac} --mincov {params.mincov} --outdir {output} --ref {input.genome} --se {input.sr} """
+
+
+
+rule snippy:
+    input:
+        r1 = funcR1,
+        r2 = funcR2,
+        genome = funcExtGeno
+
+    output:
+        directory(expand("{dir}/{{genome}}/{{sample}}", dir=config["dirResult"]))
+
+    params:
+        mincov = expand("{minc}", minc=config['mincov']),
+        minfrac= expand("{minf}", minf=config['minfrac'])
+
+    threads: 4
+    shell:
+        """bin/snippy_custom --ram 4 --cpus {threads} --minfrac {params.minfrac} --mincov {params.mincov} --outdir {output} --ref {input.genome} --R1 {input.r1} --R2 {input.r2}"""
+
+
+
+rule snippycore:
+    input:
+        [
+            expand("{dir}/{genome}/{sample}", dir=config["dirResult"], genome= geno, sample=config["configsouche"][geno])
+            for geno in config["configsouche"].keys()
+        ]
+
+    output:
+        "{dir}/{genome}/merge_genome_core_result/core.aln",
+        "{dir}/{genome}/merge_genome_core_result/core.full.aln",
+        "{dir}/{genome}/merge_genome_core_result/core.tab",
+        "{dir}/{genome}/merge_genome_core_result/core.nway.tab",
+        "{dir}/{genome}/merge_genome_core_result/core.txt",
+        "{dir}/{genome}/merge_genome_core_result/core.vcf"
+
+    run:
+        test=config['configsouche']
+        print(type(config['species']))
+        for spe in config['species']:
+            temp=''
+            prefix= config["dirResult"]+ "/" + spe + "/merge_genome_core_result/core"
+            for bou in test[spe]:
+                temp += config["dirResult"] + "/" + spe + "/" + bou + " "
+
+            temp = "bin/snippy-core-custom --prefix " + prefix + " " + temp
+            shell(temp)
+
+
+
+rule filterSNP:
+    input:
+        expand("{dir}/{{genome}}/merge_genome_core_result/core.vcf", dir=config["dirResult"])
+
+    output:
+        expand("{dir}/{{genome}}/merge_genome_core_result/core_density_filtered_keep.vcf", dir=config["dirResult"]),
+        expand("{dir}/{{genome}}/merge_genome_core_result/core_density_filtered_unkeep.vcf", dir=config["dirResult"])
+
+
+    shell:
+        "binaries/script/filter_SNP_density_aurelien_v2.py --vcf {input}"
+
+
+
+rule matrix :
+    input:
+        expand("{dir}/{{reference}}/merge_genome_core_result/core_density_filtered_keep.vcf", dir=config["dirResult"]),
+        expand("{dir}/{{reference}}/merge_genome_core_result/core_density_filtered_unkeep.vcf", dir=config["dirResult"])
+
+    output:
+        expand("{dir}/{{reference}}/merge_genome_core_result/core_density_filtered_keep_MLST_dist.tsv", dir=config["dirResult"]),
+        expand("{dir}/{{reference}}/merge_genome_core_result/core_density_filtered_keep_SNP_dist.tsv", dir=config["dirResult"])
+
+    shell:
+        "binaries/script/vcf2dist -v {input[0]}"
+
+
+rule network:
+    input:
+        expand("{dir}/{{reference}}/merge_genome_core_result/core_density_filtered_keep_MLST_dist.tsv",dir=config["dirResult"]),
+        expand("{dir}/{{reference}}/merge_genome_core_result/core_density_filtered_keep_SNP_dist.tsv", dir=config["dirResult"])
+
+    output:
+        expand("{dir}/{{reference}}/merge_genome_core_result/SNP_network.html", dir=config["dirResult"])
+    shell:
+        "binaries/script/mtx2mstV2 -i {input[1]} -o {output}"
+
+

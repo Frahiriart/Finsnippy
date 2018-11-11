@@ -1,0 +1,38 @@
+{
+    "dirResult": "/home/papapinguin/Desktop/testi/autre",
+    "repRead": "/home/papapinguin/Desktop/seq/fastq",
+    "genomeRef": "/home/papapinguin/Desktop/seq/genome",
+    "species": {
+        "sequence": ".fasta"
+    },
+    "configsouche": {
+        "sequence": {
+            "11-0596": [
+                "_1.fastq.gz",
+                "_2.fastq.gz"
+            ],
+            "11-0600": [
+                "_1.fastq.gz",
+                "_2.fastq.gz"
+            ],
+            "11-1163": [
+                "_1.fastq.gz",
+                "_2.fastq.gz"
+            ],
+            "11-1164": [
+                "_1.fastq.gz",
+                "_2.fastq.gz"
+            ],
+            "11-1165": [
+                "_1.fastq.gz",
+                "_2.fastq.gz"
+            ],
+            "11-1166": [
+                "_1.fastq.gz",
+                "_2.fastq.gz"
+            ]
+        }
+    },
+    "minfrac": 0.8,
+    "mincov": 10
+}
