@@ -12,6 +12,7 @@ Phylosnip is a pipeline of bacterial typing. The pipeline use the data of high-t
 
 ## Installation
 ```
-
-git clone https://github.com/
+cd where/you/want/to/install
+https://github.com/Frahiriart/Phylosnip.git
 ```
+
