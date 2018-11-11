@@ -8,4 +8,4 @@ Hospital Engineers, Aurelien BIRER
 Professor, Richard BONNET
 
 ## Synopsis
-Finsnippy is a pipeline of bacteral typing. The pipeline use the data of high-throughput sequencing wich sequence will be mapped to a core genome
+Finsnippy is a pipeline of bacterial typing. The pipeline use the data of high-throughput sequencing which will be mapped to an haploid reference genome. Next Finsi
