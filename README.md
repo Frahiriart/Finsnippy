@@ -28,7 +28,7 @@ chmod u+x setup.sh
 
 ## Output File
 ### Strain File
-This table come from [here](https://github.com/tseemann/snippy)
+This table come from [snippy page](https://github.com/tseemann/snippy)
 
 Extension | Description
 ----------|--------------
