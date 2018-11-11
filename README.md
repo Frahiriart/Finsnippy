@@ -11,8 +11,14 @@ Professor, Richard BONNET
 Phylosnip is a pipeline of bacterial typing. The pipeline use the data of high-throughput sequencing which will be mapped to an haploid reference genome. Next, Phylosnip find SNP, indels and MNP to discriminate strains to the core genome but also between themselves. Finally, Phylosnip will produce a distance matrice and a network graph.
 
 ## Installation
+This will install the repositories on github.
 ```
 cd where/you/want/to/install
 https://github.com/Frahiriart/Phylosnip.git
 ```
-
+The script "setup.sh" will install all binaries of this program.
+```
+cd where/you/want/to/install/Phylosnip
+chmod u+x setup.sh
+./setup.sh
+```
