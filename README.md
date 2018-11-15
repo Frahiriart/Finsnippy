@@ -89,5 +89,7 @@ Extension | Description
 .vcf | Multi-sample VCF file with genotype `GT` tags for all discovered alleles
 .txt | Tab-separated columnar list of alignment/core-size statistics
 _density_filtered_keep.vcf | Tab-separated columnar list of **core** Variant sites with alleles and annotations which are filtered by density
-
+_density_filtered_unkeep.vcf | Tab-separated columnar list of **core** Variant sites with alleles and annotations which are reject after the density filter
+_density_filtered_keep_SNP_dist.tsv | Distance Matrice of all sample between themselves
+SNP_network | Phylogeny Network
 
