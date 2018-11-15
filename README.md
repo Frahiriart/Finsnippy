@@ -27,9 +27,8 @@ chmod u+x setup.sh
 * sequence read files in FASTQ or FASTA format (can be .gz compressed) format
 
 ## Output File
-You will have 2 type of folder:
-  - 1 folder per sample
-  - 1 folder which collect and compare the SNP result of all strain and this folder have also distance matrix and network phylogeny.
+* 1 folder per sample, named by the name of the sample
+* 1 folder which collect and compare the SNP result of all strain and this folder have also distance matrix and network phylogeny, named merge_genome_core_result.
 
 ### Sample File
 This table come from [snippy page](https://github.com/tseemann/snippy)
@@ -51,7 +50,7 @@ Extension | Description
 .raw.vcf | The unfiltered variant calls from Freebayes
 .filt.vcf | The filtered variant calls from Freebayes
 
-##### Columns in the TAB/CSV/HTML formats
+#### Columns in the TAB/CSV/HTML formats:
 
 Name | Description
 -----|------------
@@ -64,7 +63,7 @@ ALT | The alternate nucleotide(s) supported by the reads
 FILTER | Either "PASS" or a semicolon-separated list of failed quality control filters.
 INFO | additional information (TYPE=Variant_Type;DP=Depth;VD=number_of_Variant;AF=Frequence_of_Variant).
 
-##### Variant Types
+#### Variant Types:
 
 Type | Name | Example
 -----|------|-------------
@@ -73,5 +72,22 @@ MNV | Multiple Nuclotide Polymorphism |GC => AT
 Insertion  | Insertion of Nucleotide | ATT => AGTT
 Deletion  | Deletion of Nucleotide | ACGG => ACG
 Complex | Combination of snp/mnp | ATTC => GTTA
+
+###  Core File
+
+### Input File
+* a set of Snippy folders which used the same reference sequence (`--genome`).
+
+### Output Files
+
+Extension | Description
+----------|--------------
+.aln | A core SNP alignment in the FASTA format
+.full.aln | A whole genome SNP alignment (includes invariant sites)
+.tab | Tab-separated columnar list of **core** Variant sites with alleles and annotations
+.nway.tab | Tab-separated columnar list of **all** Variant sites with alleles and annotations
+.vcf | Multi-sample VCF file with genotype `GT` tags for all discovered alleles
+.txt | Tab-separated columnar list of alignment/core-size statistics
+_density_filtered_keep.vcf | Tab-separated columnar list of **core** Variant sites with alleles and annotations which are filtered by density
 
 
