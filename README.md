@@ -51,7 +51,7 @@ Extension | Description
 .raw.vcf | The unfiltered variant calls from Freebayes
 .filt.vcf | The filtered variant calls from Freebayes
 
-#### Columns in the TAB/CSV/HTML formats
+##### Columns in the TAB/CSV/HTML formats
 
 Name | Description
 -----|------------
@@ -64,7 +64,7 @@ ALT | The alternate nucleotide(s) supported by the reads
 FILTER | Either "PASS" or a semicolon-separated list of failed quality control filters.
 INFO | additional information (TYPE=Variant_Type;DP=Depth;VD=number_of_Variant;AF=Frequence_of_Variant).
 
-#### Variant Types
+##### Variant Types
 
 Type | Name | Example
 -----|------|-------------
