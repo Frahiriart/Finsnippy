@@ -8,7 +8,7 @@ Hospital Engineers, Aurelien BIRER
 Professor, Richard BONNET
 
 ## Synopsis
-Phylosnip is a pipeline of bacterial typing. The pipeline use the data of high-throughput sequencing which will be mapped to an haploid reference genome. Next, Phylosnip find SNP, indels and MNP to discriminate strains to the core genome but also between themselves. Finally, Phylosnip will produce a distance matrice and a network graph.
+Phylosnip is a pipeline of bacterial typing. The pipeline use the data of high-throughput sequencing which will be mapped to an haploid reference genome. Next, Phylosnip find SNP, indels and MNP to discriminate sample to a core genome but also between themselves. Finally, Phylosnip will produce a distance matrice and a network graph.
 
 ## Installation
 This will install the repositories on github.
@@ -28,10 +28,10 @@ chmod u+x setup.sh
 
 ## Output File
 You will have 2 type of folder:
-  - 1 folder per strain
+  - 1 folder per sample
   - 1 folder which collect and compare the SNP result of all strain and this folder have also distance matrix and network phylogeny.
 
-### Strain File
+### Sample File
 This table come from [snippy page](https://github.com/tseemann/snippy)
 
 Extension | Description
@@ -51,16 +51,16 @@ Extension | Description
 .raw.vcf | The unfiltered variant calls from Freebayes
 .filt.vcf | The filtered variant calls from Freebayes
 
-## Columns in the TAB/CSV/HTML formats
+#### Columns in the TAB/CSV/HTML formats
 
 Name | Description
 -----|------------
 CHROM | The sequence the variant was found in eg. the name after the ```>``` in the FASTA reference
 POS | Position in the sequence, counting from 1
-TYPE | The variant type: snp msp ins del complex
+TYPE | The variant type: snp ins del complex
 REF | The nucleotide(s) in the reference
 ALT | The alternate nucleotide(s) supported by the reads
-EVIDENCE | Frequency counts for REF and ALT
+[QUAL](https://en.wikipedia.org/wiki/Phred_quality_score) | probability that the ALT allele is incorrectly specified, expressed on the the phred scale (-10log10(probability)).
 
 If you supply a Genbank file as the `--reference` rather than a FASTA
 file, Snippy will fill in these extra columns by using the genome annotation
@@ -77,7 +77,7 @@ GENE | The `/gene` tag of the feature (if it existed)
 PRODUCT | The `/product` tag of the feature (if it existed)
 EFFECT | The `snpEff` annotated consequence of this variant (ANN tag in .vcf)
 
-## Variant Types
+#### Variant Types
 
 Type | Name | Example
 -----|------|-------------
