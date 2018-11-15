@@ -27,6 +27,10 @@ chmod u+x setup.sh
 * sequence read files in FASTQ or FASTA format (can be .gz compressed) format
 
 ## Output File
+You will have 2 type of folder:
+  - 1 folder per strain
+  - 1 folder which collect and compare the SNP result of all strain and this folder have also distance matrix and network phylogeny.
+
 ### Strain File
 This table come from [snippy page](https://github.com/tseemann/snippy)
 
