@@ -61,28 +61,17 @@ TYPE | The variant type: snp ins del complex
 REF | The nucleotide(s) in the reference
 ALT | The alternate nucleotide(s) supported by the reads
 [QUAL](https://en.wikipedia.org/wiki/Phred_quality_score) | probability that the ALT allele is incorrectly specified, expressed on the the phred scale (-10log10(probability)).
-
-If you supply a Genbank file as the `--reference` rather than a FASTA
-file, Snippy will fill in these extra columns by using the genome annotation
-to tell you which feature was affected by the variant:
-
-Name | Description
------|------------
-FTYPE | Class of feature affected: CDS tRNA rRNA ...
-STRAND | Strand the feature was on: + - .
-NT_POS | Nucleotide position of the variant withinthe feature / Length in nt
-AA_POS | Residue position / Length in aa (only if FTYPE is CDS)
-LOCUS_TAG | The `/locus_tag` of the feature (if it existed)
-GENE | The `/gene` tag of the feature (if it existed)
-PRODUCT | The `/product` tag of the feature (if it existed)
-EFFECT | The `snpEff` annotated consequence of this variant (ANN tag in .vcf)
+FILTER | Either "PASS" or a semicolon-separated list of failed quality control filters.
+INFO | additional information (TYPE=Variant_Type;DP=Depth;VD=number_of_Variant;AF=Frequence_of_Variant).
 
 #### Variant Types
 
 Type | Name | Example
 -----|------|-------------
-snp  | Single Nucleotide Polymorphism |  A => T
-mnp  | Multiple Nuclotide Polymorphism | GC => AT
-ins  | Insertion | ATT => AGTT
-del  | Deletion | ACGG => ACG
-complex | Combination of snp/mnp | ATTC => GTTA
+SNV  | Single Nucleotide Variant (=SNP) |  A => T
+MNV | Multiple Nuclotide Polymorphism |GC => AT
+Insertion  | Insertion of Nucleotide | ATT => AGTT
+Deletion  | Deletion of Nucleotide | ACGG => ACG
+Complex | Combination of snp/mnp | ATTC => GTTA
+
+
