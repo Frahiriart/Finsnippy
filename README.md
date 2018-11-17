@@ -96,4 +96,26 @@ SNP_network | Phylogeny Network
 ## Quick Start
 
 #### Download Data Test
+if you want to test Pylosnipping with data test you must have [SRA toolkit](https://www.ncbi.nlm.nih.gov/sra/docs/toolkitsoft/). You can download SRA toolkit with this command.
 
+```
+wget http://ftp-trace.ncbi.nlm.nih.gov/sra/sdk/2.4.1/sratoolkit.2.4.1-ubuntu64.tar.gz
+tar xzvf sratoolkit.2.4.1-ubuntu64.tar.gz
+```
+
+Data which will be download come from [this](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5800660/)
+
+```
+cd where/you/want/to/install/Phylosnip/test
+for i in `cat SRR_Acc_List.txt`; do ~/where/is/sratoolkit.2.9/bin/fastq-dump --split-files $i; gzip -9 $i*; done
+sudo apt install rename
+for b in `awk '{print "s/"$11"/"$8"/";}' SraRunTable.txt`;do rename `echo $b` *; done
+wget https://www.ncbi.nlm.nih.gov/sviewer/viewer.cgi?tool=portal&save=file&log$=seqview&db=nuccore&report=fasta&id=378697983&
+```
+
+#### Execute Phylosnipping
+
+```
+cd where/you/want/to/install/Phylosnip/test
+/fastq2phylotreeV1.py -input test -g test/sequence.fasta -o where/you/want/your/resut
+```
