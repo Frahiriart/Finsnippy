@@ -28,7 +28,7 @@ def run():
                         (if no configfile enter the path to your reference genome)""")
     parser.add_argument('-c', '--config', dest="config", default=0, help="Enter the path of your csv file which "
                                                                          "config the association of genome with "
-                                                                         "strain (help of csv2json.py for see how "
+                                                                         "strain (help of csv2json.py(in binaries/script) for see how "
                                                                          "make this csv file)")
     parser.add_argument('-C', '--core', dest="core", default=multiprocessing.cpu_count(),
                         help="Enter the number of the cores that you want to give to this program")
