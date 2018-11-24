@@ -119,3 +119,18 @@ wget https://www.ncbi.nlm.nih.gov/sviewer/viewer.cgi?tool=portal&save=file&log$=
 cd where/you/want/to/install/Phylosnip/test
 /fastq2phylotreeV1.py -input test -g test/sequence.fasta -o where/you/want/your/resut
 ```
+
+## Requirements
+
+### * Java = 1.8
+* Perl >= 5.12
+* Perl Modules : bioperl >= 1.6
+* snippy >= 4.3.5
+* samtools >= 1.7
+* bwa mem >= 0.7.12
+* bcftools >= 1.7
+* GNU parallel >= 2013xxxx
+* snpEff >= 4.3
+* bedtools >= 2.0
+* bcftools >= 1.7
+* 
