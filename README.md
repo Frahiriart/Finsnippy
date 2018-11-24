@@ -122,10 +122,14 @@ cd where/you/want/to/install/Phylosnip/test
 
 ## Requirements
 
-### * Java = 1.8
+* Java = 1.8
 * Perl >= 5.12
+* R >= 3.2.5
+* Python 3.6
 * Perl Modules : bioperl >= 1.6
 * snippy >= 4.3.5
+* picard.jar >= 2.18.8
+* GenomeAnalysisTK.jar >= 4.0.11.0
 * samtools >= 1.7
 * bwa mem >= 0.7.12
 * bcftools >= 1.7
@@ -133,4 +137,14 @@ cd where/you/want/to/install/Phylosnip/test
 * snpEff >= 4.3
 * bedtools >= 2.0
 * bcftools >= 1.7
-* 
+* minimap2 >= 2.0
+* vcflib >= 1.0 (vcfstreamsort, vcfuniq, vcffirstheader)
+* snp-sites >= 2.0
+* seqtk >= 1.2
+* samclip >= 0.2
+* readseq >= 2.0
+* vt >= 0.5
+* vcflib >= 1.0
+
+For Linux (compiled on Ubuntu 16.04 LTS) some of the binaries, JARs and scripts are included.
+And the binaries can be install with the file `setup.sh`.
