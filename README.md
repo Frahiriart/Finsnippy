@@ -14,7 +14,7 @@ Phylosnip is a pipeline of bacterial typing. The pipeline use the data of high-t
 This will install the repositories on github.
 ```
 cd where/you/want/to/install
-https://github.com/Frahiriart/Phylosnip.git
+git clone https://github.com/Frahiriart/Phylosnip.git
 ```
 The script "setup.sh" will install all binaries of this program.
 ```
